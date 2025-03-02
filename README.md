@@ -122,7 +122,7 @@ with cuda.timer("行列乗算"):
 
 ## ベンチマーク結果
 
-以下は2000x2000行列での演算のベンチマーク結果です（NVIDIAのGPU使用時）:
+以下は2000x2000行列での演算のベンチマーク結果です（NVIDIAのRTX3070使用時）:
 
 | 演算         | CPU時間(ms) | GPU時間(ms) | 高速化率 |
 |--------------|------------|------------|----------|
@@ -311,7 +311,7 @@ with cuda.timer("Matrix Multiplication"):
 
 ## Benchmark Results
 
-Here are benchmark results for operations on 2000x2000 matrices (using NVIDIA GPU):
+Here are benchmark results for operations on 2000x2000 matrices (using NVIDIA RTX3070):
 
 | Operation              | CPU Time (ms) | GPU Time (ms) | Speedup |
 |------------------------|--------------|--------------|---------|
