@@ -1,7 +1,7 @@
 # SimpleCUDA
 NumPyのようなインターフェースで簡単にCUDAを使用したGPU演算を行えるライブラリ。A library that allows users to easily perform GPU operations using CUDA with a NumPy-like interface
 
-SimpleCUDAは、NumPyのようなインターフェースを保ちながらGPUの高速計算能力を活用できる、シンプルかつ強力なPythonライブラリです。科学計算、機械学習の前処理、データ解析など、計算処理を必要とするあらゆる場面で、コードの変更を最小限に抑えつつGPU高速化を実現します。
+SimpleCUDAは、NumPyと同様のインターフェースを保ちながらGPUの計算能力を活用できる、シンプルかつ強力なPythonライブラリです。科学計算、機械学習の前処理、データ解析など、計算処理を必要とするあらゆる場面で、コードの変更を最小限に抑えつつGPU高速化を実現します。
 
 ### 特徴
 
@@ -171,3 +171,180 @@ print(f"GPU使用メモリ: {mem_info['used_gb']:.2f} GB / {mem_info['total_gb']
 ## ライセンス
 
 MIT License
+
+
+
+# SimpleCUDA
+
+## A Lightweight Python Library for GPU Computing with NumPy-like Interface
+
+SimpleCUDA is a simple yet powerful Python library that leverages the computational power of GPUs while maintaining NumPy's familiar syntax. It's designed for scientific computing, machine learning preprocessing, data analysis, and any computational task that requires acceleration, allowing you to harness GPU power with minimal code changes.
+
+### Key Features
+
+- **Intuitive API**: Interfaces similar to NumPy, minimizing learning curve
+- **High Performance**: Achieves up to 40x speedup compared to CPU operations
+- **Compact Design**: Focused on essential functionality for maximum efficiency
+- **Automatic Fallback**: Seamlessly operates on CPU if GPU is unavailable
+- **Robust Error Handling**: Minimizes issues from different development environments
+- **Bilingual Documentation**: Comprehensive documentation in both English and Japanese
+
+## Requirements
+
+- Python 3.7 or later
+- NumPy
+- CuPy (for GPU functionality)
+- NVIDIA GPU with CUDA support (for GPU functionality)
+
+## Installation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/yourusername/simplecuda.git
+```
+
+2. Place `simplecuda.py` in the same directory as your Python code or in a location that's in your Python path.
+
+3. Import the library directly with `import simplecuda`:
+
+```python
+from simplecuda import cuda, array, to_gpu, to_cpu
+```
+
+## Basic Usage
+
+```python
+import numpy as np
+from simplecuda import cuda, array, matmul, to_cpu
+
+# Create NumPy arrays
+a_np = np.random.rand(1000, 1000).astype(np.float32)
+b_np = np.random.rand(1000, 1000).astype(np.float32)
+
+# Convert to GPU arrays
+a = array(a_np)  # Automatically transfers to GPU
+b = array(b_np)
+
+# Perform matrix multiplication on GPU
+c = matmul(a, b)
+
+# Transfer result back to CPU
+c_np = to_cpu(c)
+
+print(f"Shape of GPU computation result: {c_np.shape}")
+```
+
+## Supported Features
+
+### Array Creation
+
+```python
+# Various methods for creating arrays
+a = array([1, 2, 3, 4])
+b = zeros((3, 4))
+c = ones((2, 5))
+d = eye(3)  # 3x3 identity matrix
+e = random((5, 5))  # Uniform random values between 0-1
+```
+
+### Basic Operations
+
+```python
+# Basic matrix and array operations
+c = matmul(a, b)  # Matrix multiplication
+d = dot(a, b)     # Dot product
+e = add(a, b)     # Element-wise addition
+f = subtract(a, b)  # Element-wise subtraction
+g = multiply(a, b)  # Element-wise multiplication
+h = divide(a, b)    # Element-wise division
+```
+
+### Mathematical Functions
+
+```python
+# Unary operations and mathematical functions
+a_sqrt = sqrt(a)    # Square root
+a_exp = exp(a)      # Exponential function
+a_log = log(a)      # Natural logarithm
+a_abs = abs(a)      # Absolute value
+```
+
+### Aggregation Functions
+
+```python
+# Data aggregation
+total = sum(a)         # Sum
+avg = mean(a)          # Average
+max_val = max(a)       # Maximum value
+min_val = min(a)       # Minimum value
+max_idx = argmax(a)    # Index of maximum value
+```
+
+### Shape Manipulation
+
+```python
+# Shape manipulation
+a_reshaped = reshape(a, (2, 5))    # Reshape
+a_t = transpose(a)                 # Transpose
+```
+
+### Performance Measurement
+
+```python
+# Measuring computation time
+with cuda.timer("Matrix Multiplication"):
+    c = matmul(a, b)
+```
+
+## Benchmark Results
+
+Here are benchmark results for operations on 2000x2000 matrices (using NVIDIA GPU):
+
+| Operation              | CPU Time (ms) | GPU Time (ms) | Speedup |
+|------------------------|--------------|--------------|---------|
+| Matrix Multiplication  | 34.75        | 1.72         | 20.17x  |
+| Element-wise Addition  | 4.48         | 0.17         | 27.12x  |
+| Element-wise Multiply  | 5.39         | 0.67         | 8.03x   |
+| Square Root            | 3.88         | <0.01        | >100x   |
+
+The performance benefit becomes more significant as matrix sizes increase.
+
+## Advanced Usage Examples
+
+### Machine Learning Preprocessing
+
+```python
+# Preprocessing large datasets
+X_train = to_gpu(X_train_np)  # Transfer training data to GPU
+
+# Standardization
+mean = cuda.mean(X_train, axis=0)
+std = cuda.sqrt(cuda.mean(cuda.power(cuda.subtract(X_train, mean), 2), axis=0))
+X_train_scaled = cuda.divide(cuda.subtract(X_train, mean), std)
+
+X_train_scaled_np = to_cpu(X_train_scaled)  # Transfer result back to CPU
+```
+
+### Memory Management
+
+```python
+# Explicit memory management
+cuda.clear_memory()  # Free unused GPU memory
+
+# Check memory usage
+mem_info = cuda.memory_info()
+print(f"GPU Memory Usage: {mem_info['used_gb']:.2f} GB / {mem_info['total_gb']:.2f} GB")
+```
+
+## Troubleshooting
+
+- **ImportError: No module named 'cupy'**: CuPy is not installed. Install with `pip install cupy-cuda11x` (adjust for your CUDA version) or run in CPU mode.
+- **Memory errors**: Call `cuda.clear_memory()` or process in smaller batches.
+- **GPU-related errors**: If there are issues initializing the GPU, you can force CPU mode with `SimpleCUDA(force_cpu=True)`.
+
+## License
+
+MIT License
+
+
