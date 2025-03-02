@@ -172,6 +172,18 @@ print(f"GPU使用メモリ: {mem_info['used_gb']:.2f} GB / {mem_info['total_gb']
 
 MIT License
 
+### 免責
+SimpleCUDAは「現状のまま」提供されており、明示または黙示を問わず、いかなる種類の保証も行いません。このライブラリは教育・研究・一般的な計算タスク向けに開発されていますが、バグや予期しない動作が含まれている可能性があります。
+開発者およびコントリビューターは、このソフトウェアの使用によって生じたいかなる直接的、間接的、偶発的、特殊、典型的、または結果的な損害に対しても責任を負いません。
+重要な注意事項: SimpleCUDAは下記のような用途での使用を想定していません。
+
+ミッションクリティカルなシステム
+安全性が重要な応用分野
+金融取引や重要なビジネスデータの処理
+医療機器や人命に関わるシステム
+高い信頼性が求められる本番環境
+
+実験的または重要でないプロジェクトでの使用を推奨します。本番環境で使用する前に、徹底的なテストと検証を行ってください。
 
 
 # SimpleCUDA
@@ -347,4 +359,16 @@ print(f"GPU Memory Usage: {mem_info['used_gb']:.2f} GB / {mem_info['total_gb']:.
 
 MIT License
 
+## Disclaimer
+SimpleCUDA is provided "as is" without warranty of any kind, either expressed or implied. While this library is developed for educational, research, and general computation tasks, it may contain bugs or unexpected behaviors.
+The developers and contributors shall not be held liable for any direct, indirect, incidental, special, exemplary, or consequential damages arising from the use of this software.
+Important Note: SimpleCUDA is not intended for use in:
+
+Mission-critical systems
+Safety-critical applications
+Financial transactions or critical business data processing
+Medical devices or life-dependent systems
+Production environments requiring high reliability
+
+We recommend using it for experimental or non-critical projects. Before using in any production environment, please conduct thorough testing and validation.
 
